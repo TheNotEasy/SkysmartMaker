@@ -9,28 +9,40 @@
             <input type="text" name="url" id="url" required pattern="^https://edu\.skysmart\.ru/student/[a-zA-Z]{10}$" title="Неа, это не ссылка на скайсмарт задание">
             <label for="score">На сколько баллов</label>
             <input type="number" name="score" id="score" required min="0" max="100">
-            <input type="submit" value="Решить" id="state">
+            <input type="submit" value="Решить">
+            <p id="state" style="display: none"></p>
         </form>
         <a href="/setauth">Изменить данные</a>
     </div>
     <script>
-        function handleSubmit(ev) {
+        async function handleSubmit(ev) {
             ev.preventDefault();
+            stateHolder.style.display = 'unset';
 
-        }
+            stateHolder.innerText = "Ожидание сервера...";
+            const formdata = new FormData(ev.target);
+            const url = formdata.get('url');
+            const score = formdata.get('score');
 
-        function reset() {
-            submit.value = submitInitText;
-            submit.disabled = false;
+            const resp = await fetch(
+                '/maker', {
+                    method: 'post',
+                    body: JSON.stringify({url, score}),
+                    headers: {'Content-Type': 'application/json'},
+                });
+
+            const reader = resp.body.getReader();
+
+            while (true) {
+                const {done, value} = await reader.read();
+                const text = new TextDecoder().decode(value)
+                stateHolder.innerText = text;
+                if (text === 'Завершено!') break;  // TODO: (to me in future) sorry, I was simply lazy lol, and btw, done from reader is not working
+            }
         }
 
         const form = document.getElementsByTagName('form')[0];
-        const submit = document.querySelector('input[type=submit]')
-        const submitInitText = submit.value;
-
-        for (const input of form.querySelectorAll('input:not([type=submit])')) {
-            input.addEventListener('input', reset);
-        }
+        const stateHolder = document.getElementById('state');
 
         form.addEventListener('submit', handleSubmit)
     </script>

@@ -155,6 +155,6 @@ class SkysmartMaker:
         for index, subtask in enumerate(subtasks):
             body = data.api.save_body(subtask, user_id, self.score, self._room_hash)
             self.session.post(data.api.save, json=body)
-            yield {"state": StateEnum.DO, "data": (index+1, subtasks_len)}
+            yield index+1, subtasks_len
 
         self.session.post(data.api.finish, json={'roomHash': self._room_hash})

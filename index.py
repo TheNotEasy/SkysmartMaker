@@ -30,7 +30,7 @@ def index():
 def maker():
     from maker import SkysmartMaker, StateEnum
 
-    config = request.form
+    config = request.json
     task = config['url'].split('/')[-1]
     score: int = int(config['score'])
 
@@ -40,7 +40,7 @@ def maker():
         StateEnum.AUTH: "Авторизация...",
         StateEnum.START: "Запуск задания...",
         StateEnum.SETUP: "Подготовка...",
-        StateEnum.DO: "{} из {}",
+        StateEnum.DO: "{} из {} задач",
         StateEnum.FINISH: "Завершено!",
     }
 
@@ -60,5 +60,5 @@ def maker():
     return start_maker(), {'Content-Type': 'text/plain'}
 
 
-# if __name__ == '__main__':
-#     app.run()
+if __name__ == '__main__':
+    app.run(debug=True)
