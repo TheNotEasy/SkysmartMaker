@@ -6,7 +6,6 @@ charset-normalizer==3.3.2
 click==8.1.7
 cryptography==42.0.5
 Flask==3.0.2
-flask-sock==0.7.0
 h11==0.14.0
 idna==3.6
 itsdangerous==2.1.2
@@ -18,6 +17,5 @@ requests==2.31.0
 simple-websocket==1.0.0
 soupsieve==2.5
 urllib3==2.2.1
-uvicorn==0.29.0
 Werkzeug==3.0.1
 wsproto==1.2.0

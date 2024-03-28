@@ -1,8 +1,6 @@
 from flask import Flask, request, render_template, session, redirect
-from flask_sock import Sock
 
 app = Flask("SkysmartMakerService")
-sock = Sock(app)
 
 app.secret_key = 'AUfy1@#uig!!jf?5r&^@!'
 
