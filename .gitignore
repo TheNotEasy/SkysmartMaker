@@ -1,8 +1,7 @@
- .vercel
+.vercel
 *.log
 *.pyc
 __pycache__
-build.sh
 
 # Environments 
 .env 
