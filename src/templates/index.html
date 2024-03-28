@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='form.css') }}">
+    <div class="container">
+        <h1>Главная страница</h1>
+        <form method="post" action="" class="form" id="form">
+            <label for="url">Ссылка задания</label>
+            <input type="text" name="url" id="url" required pattern="^https://edu\.skysmart\.ru/student/[a-zA-Z]{10}$" title="Неа, это не ссылка на скайсмарт задание">
+            <label for="score">На сколько баллов</label>
+            <input type="number" name="score" id="score" required min="0" max="100">
+            <input type="submit" value="Решить" id="state">
+        </form>
+        <a href="/setauth">Изменить данные</a>
+    </div>
+    <script>
+        function handleSubmit(ev) {
+            ev.preventDefault();
+
+        }
+
+        function reset() {
+            submit.value = submitInitText;
+            submit.disabled = false;
+        }
+
+        const form = document.getElementsByTagName('form')[0];
+        const submit = document.querySelector('input[type=submit]')
+        const submitInitText = submit.value;
+
+        for (const input of form.querySelectorAll('input:not([type=submit])')) {
+            input.addEventListener('input', reset);
+        }
+
+        form.addEventListener('submit', handleSubmit)
+    </script>
+{% endblock %}

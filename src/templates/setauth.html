@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+    <link rel="stylesheet" href="{{ url_for("static", filename="form.css") }}">
+    <div class="container">
+        <h1>Данные от аккаунта скайсмарт</h1>
+        <form class="form" method="post" action="">
+            <label for="email">Почта</label>
+            <input type="email" name="email" class="form__input" id="email">
+            <label for="password">Пароль</label>
+            <input type="password" name="password" class="form__input" id="password">
+            <input type="submit" value="Отправить">
+        </form>
+
+        {% if session.get('authorized') %}
+        	<a href="/">Назад</a>
+        {% endif %}
+    </div>
+{% endblock %}
