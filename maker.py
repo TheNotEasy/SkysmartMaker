@@ -94,8 +94,8 @@ class SkysmartMaker:
         """Check if that task is exist"""
 
         response = self.session.post(data.api.preview, json={'taskHash': self.task})
-        if response.status_code == 500:
-            raise MessageException("Задание не найдено!")
+        if not response.json().get('success', False):
+            raise MessageException("notexist")
         self._preview = response.json()
 
     def auth(self, login: str, password: str):
@@ -106,7 +106,7 @@ class SkysmartMaker:
             self._get_csrf_token())
         )
         if not resp.json().get('success', False):
-            raise MessageException("Неправильный логин или пароль")
+            raise MessageException("autherror")
         self.session.post(data.api.jwt)  # acquire jwt token cookies
         token_global = self.session.cookies.get('token_global')
         session_global = self.session.cookies.get('session_global')

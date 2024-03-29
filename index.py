@@ -36,6 +36,7 @@ def maker():
 
     cookies = request.cookies
 
+    # TODO: Give client message id, not message content, move this to client
     messages = {
         StateEnum.AUTH: "Авторизация...",
         StateEnum.START: "Запуск задания...",
@@ -54,8 +55,16 @@ def maker():
         return msg
 
     def start_maker():
-        for state in SkysmartMaker(task, score).do(cookies['email'], cookies['password']):
-            yield handle_state(state)
+        from exceptions import MessageException
+        error = ':'
+        try:
+            for state in SkysmartMaker(task, score).do(cookies['email'], cookies['password']):
+                yield '|' + handle_state(state)  # Add separator
+        except MessageException as e:
+            error += e.message
+        except Exception:
+            error += 'unhandled'
+        yield '|end' + error
 
     return start_maker(), {'Content-Type': 'text/plain'}
 

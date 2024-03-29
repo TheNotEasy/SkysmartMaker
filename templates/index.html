@@ -15,6 +15,11 @@
         <a href="/setauth">Изменить данные</a>
     </div>
     <script>
+        const errors = {
+            'autherror': 'Неправильный логин или пароль',
+            'notexist': 'Ссылка ведет на несуществующую задачу'
+        }
+
         async function handleSubmit(ev) {
             ev.preventDefault();
             stateHolder.style.display = 'unset';
@@ -34,10 +39,16 @@
             const reader = resp.body.getReader();
 
             while (true) {
-                const {done, value} = await reader.read();
-                const text = new TextDecoder().decode(value)
-                stateHolder.innerText = text;
-                if (text === 'Завершено!') break;  // TODO: (to me in future) sorry, I was simply lazy lol, and btw, done from reader is not working
+                const {value} = await reader.read();
+                const raw_text = new TextDecoder().decode(value);
+                const messages = raw_text.split('|');
+                let last_msg = messages.slice(-1)[0];  // If there are multiple messages read at once, get last one
+                const done = last_msg.startsWith('end');
+                if (done) {
+                    last_msg = errors[last_msg.split(':').slice(-1)[0]];
+                }
+                stateHolder.innerText = last_msg;
+                if (done) break;
             }
         }
 
