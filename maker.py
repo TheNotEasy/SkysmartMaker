@@ -94,7 +94,7 @@ class SkysmartMaker:
         """Check if that task is exist"""
 
         response = self.session.post(data.api.preview, json={'taskHash': self.task})
-        if not response.json().get('success', False):
+        if response.status_code == 404:
             raise MessageException("notexist")
         self._preview = response.json()
 
