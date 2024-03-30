@@ -10,8 +10,6 @@
     background-color: rgba(255, 255, 255, 0.05);
     padding: 20px;
     border-radius: 20px;
-
-    margin-bottom: 20px;
 }
 
 .form > input {
@@ -37,6 +35,8 @@
     cursor: pointer;
 
     transition-duration: 0.3s;
+
+    margin-bottom: 0;
 }
 
 .form input[type=submit]:hover {
