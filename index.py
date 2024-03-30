@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, session, redirect
+from flask import Flask, request, render_template, session, redirect, abort, flash
 
 app = Flask("SkysmartMakerService")
 
@@ -12,11 +12,24 @@ def setauth():
 
 @app.post('/setauth')
 def setauthpost():
+    from maker import SkysmartMaker, MessageException
+
     resp = redirect('/')
-    for key, value in request.form.items():
-        resp.set_cookie(key, value, httponly=True)
-    session['authorized'] = True
-    return resp
+
+    try:
+        SkysmartMaker('test').auth(request.form['email'], request.form['password'])
+    except MessageException:
+        flash("Неправильный логин или пароль")
+    except Exception:
+        flash("Произошла непредвиденная ошибка на стороне сервера")
+    else:
+        for key in ('email', 'password'):
+            resp.set_cookie(key, request.form[key], httponly=True)
+
+        session['authorized'] = True
+        return resp
+
+    return render_template("setauth.html")
 
 
 @app.get('/')
@@ -68,6 +81,6 @@ def maker():
 
     return start_maker(), {'Content-Type': 'text/plain'}
 
-#
-# if __name__ == '__main__':
-#     app.run(debug=True)
+
+if __name__ == '__main__':
+    app.run(debug=True)

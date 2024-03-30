@@ -1,7 +1,5 @@
-import time
 import logging
 from enum import Enum
-from queue import Queue
 
 import requests
 
@@ -67,7 +65,6 @@ class StateEnum(Enum):
 
 class SkysmartMaker:
     def __init__(self, task: str, score: int = 100):
-
         self.task = task
         self.score = score
 

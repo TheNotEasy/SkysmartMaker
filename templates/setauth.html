@@ -11,6 +11,12 @@
             <input type="submit" value="Отправить">
         </form>
 
+        {% if get_flashed_messages() %}
+            {% for message in get_flashed_messages() %}
+            	<p>{{ message }}</p>
+            {% endfor %}
+        {% endif %}
+
         {% if session.get('authorized') %}
         	<a href="/">Назад</a>
         {% endif %}
