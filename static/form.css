@@ -4,16 +4,41 @@
 
     max-width: 500px;
     width: 100%;
+
+    box-sizing: content-box;
+
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 20px;
+
+    margin-bottom: 20px;
 }
 
 .form > input {
     outline: none;
-    border: black solid 2px;
     border-radius: 10px;
+    border-style: none;
 
     box-sizing: border-box;
     margin-top: 5px;
     margin-bottom: 20px;
 
     padding: 15px 10px;
+
+    background: rgba(255, 255, 255, 0.1);
+
+    color: white;
+}
+
+.form input[type=submit] {
+    background-color: #3E88EF;
+    color: white;
+
+    cursor: pointer;
+
+    transition-duration: 0.3s;
+}
+
+.form input[type=submit]:hover {
+    background-color: #70a2ec;
 }

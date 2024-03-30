@@ -1,5 +1,8 @@
 :root {
     font-family: system-ui;
+
+    background-color: #121212;
+    color: white;
 }
 
 .container {
@@ -34,4 +37,9 @@ h1 {
     p {
         margin: 0;
     }
+}
+
+a {
+    color: #3E88EF;
+    text-decoration: none;
 }
