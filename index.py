@@ -46,6 +46,7 @@ def maker():
     config = request.json
     task = config['url'].split('/')[-1]
     score: int = int(config['score'])
+    between: int = int(config['between'])
 
     cookies = request.cookies
 
@@ -71,7 +72,7 @@ def maker():
         from exceptions import MessageException
         error = ':'
         try:
-            for state in SkysmartMaker(task, score).do(cookies['email'], cookies['password']):
+            for state in SkysmartMaker(task, score, between).do(cookies['email'], cookies['password']):
                 yield '|' + handle_state(state)  # Add separator
         except MessageException as e:
             error += e.message

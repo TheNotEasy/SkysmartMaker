@@ -1,4 +1,5 @@
 import logging
+import time
 from enum import Enum
 
 import requests
@@ -64,9 +65,10 @@ class StateEnum(Enum):
 
 
 class SkysmartMaker:
-    def __init__(self, task: str, score: int = 100):
+    def __init__(self, task: str, score: int = 100, between: int = 3):
         self.task = task
         self.score = score
+        self.between = between
 
         self.session = requests.Session()
 
@@ -151,7 +153,10 @@ class SkysmartMaker:
 
         for index, subtask in enumerate(subtasks):
             body = data.api.save_body(subtask, user_id, self.score, self._room_hash)
-            self.session.post(data.api.save, json=body)
+
+            resp = self.session.post(data.api.save, json=body)
+            resp.raise_for_status()
+            time.sleep(self.between)
             yield index+1, subtasks_len
 
         self.session.post(data.api.finish, json={'roomHash': self._room_hash})

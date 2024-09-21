@@ -7,8 +7,10 @@
         <form method="post" action="" class="form" id="form">
             <label for="url">Ссылка задания</label>
             <input type="text" name="url" id="url" required pattern="^https://edu\.skysmart\.ru/student/[a-zA-Z]{10}$" title="Неа, это не ссылка на скайсмарт задание">
-            <label for="score">На сколько баллов</label>
+            <label for="score">На сколько баллов (МОЖЕТ ОТЛИЧАТЬСЯ ОТ КОНЕЧНОГО БАЛЛА)</label>
             <input type="number" name="score" id="score" required min="0" max="100">
+            <label for="between">Перерыв (в сек) между заданиями (чем ниже значения, тем быстрее, но ненадежней, можно недобрать баллы)</label>
+            <input type="number" name="between" id="between" required min="0" max="10" value="3">
             <input type="submit" value="Решить" id="submit">
             <p id="state" style="display: none"></p>
         </form>
@@ -32,11 +34,12 @@
             const formdata = new FormData(ev.target);
             const url = formdata.get('url');
             const score = formdata.get('score');
+            const between = formdata.get('between')
 
             const resp = await fetch(
                 '/maker', {
                     method: 'post',
-                    body: JSON.stringify({url, score}),
+                    body: JSON.stringify({url, score, between}),
                     headers: {'Content-Type': 'application/json'},
                 });
 
