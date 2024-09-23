@@ -155,7 +155,8 @@ class SkysmartMaker:
             body = data.api.save_body(subtask, user_id, self.score, self._room_hash)
 
             resp = self.session.post(data.api.save, json=body)
-            resp.raise_for_status()
+            if not resp.ok:
+                raise MessageException("taskerror")
             time.sleep(self.between)
             yield index+1, subtasks_len
 
