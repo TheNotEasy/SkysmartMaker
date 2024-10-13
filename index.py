@@ -76,7 +76,8 @@ def maker():
                 yield '|' + handle_state(state)  # Add separator
         except MessageException as e:
             error += e.message
-        except Exception:
+        except Exception as e:
+            print(e.message)
             error += 'unhandled'
         yield '|end' + error
 
